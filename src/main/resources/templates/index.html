@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Jobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<link rel="stylesheet" type="text/css" media="all" 
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css}" />
+          <link rel="stylesheet" type="text/css" media="all" 
+          href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" th:href="@{https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css}" />
+          <link rel="stylesheet" type="text/css" media="all" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}" />
+</head>
+<style>
+.br { 
+            display: block; 
+            margin-bottom: 0.5em; 
+        } 
+        
+        .middle{
+        width: 20%;
+    float: left;
+    margin-right: 15px;
+    }
+    .left{
+     width: 17%;
+     float: left;
+    }
+</style>
+<body>
+<!--     <div class="container my-2">
+        <div class="card">
+            <div class="card-body">
+                <div th:switch="${jobs}" class="container my-5">
+                    <p class="my-5">
+                    </p>
+                    <div class="col-md-10">
+                        <h2 th:case="null">No jobs yet!</h2>
+                        <div th:case="*">
+                            <table class="table table-striped table-responsive-md">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Job Id</th>
+                                        <th>Status</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="job : ${jobs}">
+                                        <td th:text="${job.id}"></td>
+                                        <td th:text="${job.jobid}"></td>
+                                        <td th:text="${job.status}"></td>
+                                        <td th:text="${job.createdAt}"></td>
+                                        <td th:text="${job.updatedAt}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+    <img class="d-inline" src="../static/img/logo.png" width="180" height="50"
+             th:src="@{/img/logo.png}"/>
+    	<h2 class="d-inline align-middle">COBOT</h2>
+        </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Jobs
+                <span class="sr-only">(current)</span>
+              </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Scheduler</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+       <!--  <li class="nav-item">
+          <a class="nav-link" href="#">Accounts</a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Page Content -->
+<div class="container">
+  
+     <!-- <span class="br"></span>  
+     <div class="left">
+      <button class="btn btn-outline-secondary" id="pay" data-toggle="tooltip" data-placement="top" title="Establish the Connection with SSM Application"><i class="fa fa-plug"></i> Connect To SSM</button>
+     </div>
+     
+     <div class="middle">
+     <select class="browser-default custom-select">
+  <option selected>Select Script Name</option>
+  <option value="1">Create JIRA ID</option>
+  <option value="2">Export All Issues</option>
+  <option value="3">Access Sharepoint</option>
+  <option value="3">Access AWS</option>
+</select>
+     </div>
+     
+     <div class="right">
+      <button class="btn btn-outline-secondary" id="script" data-toggle="tooltip" data-placement="top" title="Create CoBot script executor"><i class="fa fa-tasks"></i> Convert To CoBot</button>
+     </div> -->
+    
+     
+    
+   <!--  <button class="btn btn-outline-secondary"  id="pay" data-toggle="tooltip" data-placement="top" title="Establish the Connection with SSM Application"><i class="fa fa-plug"></i>Connect</button><br>
+<button class="btn btn-outline-secondary" id="script" data-toggle="tooltip" data-placement="top" title="Create CoBot script executor"><i class="fa fa-tasks"></i>Convert</button> -->
+<!--     <button type="button" class="btn btn-info" autocomplete="off">Establish the Connection with SSM Application</button>
+    <div class="float-right">
+    <button type="button"   class="btn btn-info pull-right" autocomplete="off">Create CoBot script executor</button>
+    </div> -->
+    
+     
+
+    
+     <span class="br"></span>  
+   <div id="dispaly">
+    <span class="br"></span>  
+   <div class="progress" id="progressbar">
+    
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="load" style="width:0%">
+      0%
+    </div>
+  </div>
+
+   </div>
+       <div id="loading">
+    <span class="br"></span>  
+   <div class="progress1" id="loadingbar">
+    
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="scriptload" style="width:0%">
+      0%
+    </div>
+  </div>
+
+   </div>
+    
+    <span class="br"></span>  
+<br/>
+    <div class="card border-primary " >
+  <div class="card-header bg-primary"><h5 style="color:#ffffff">JOB STATUS</h5></div>
+  <div class="card-body text-default">
+
+      <table id="example" class="table table-sm table-striped table-bordered" style="width:100%">
+        <thead >
+            <tr>
+            	
+                <th>JOB ID</th>
+                <th>SOURCE</th>
+                <th>JOB TYPE</th>
+                <th>STATE</th>
+                <th>STARTED DATE</th>
+                <th>ENDED DATE</th>
+                <th>TARGET</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="job : ${jobs}">
+            <td >
+            <span th:switch="${job.status}">
+			    <span th:case="'Success'"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 5px;color:#008000bf;font-size: 14px;"></i></span>
+			    <span th:case="'Submitted'"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 5px;color:#ff8d00;font-size: 14px;"></i></span>
+			    <span th:case="'Inprocess'"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="margin-right: 5px;color:#ff8d00;font-size: 14px;"></i></span>
+			    <span th:case="'RetryInprogress'"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="margin-right: 5px;color:#ff8d00;font-size: 14px;"></i></span>
+			    <span th:case="*">
+			       <i class="fa fa-exclamation-circle" aria-hidden="true" style="margin-right: 5px;color:red;font-size: 14px;"></i>
+			    </span>
+			    </span>
+			    JOB-<span th:text="${job.id}" >Id</span> 
+			    </td>
+            
+            	<!-- <td >
+            	
+            	<span th:if="${job.status == 'Success'}"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 5px;color:#008000bf;font-size: 14px;"></i></span>
+            	<span th:if="${job.status == 'Inprocess'}"><i class="fa fa-sync fa-spin" aria-hidden="true" style="margin-right: 5px;color:#ff8d00;font-size: 14px;"></i></span>
+            	<span th:if="${job.status == 'Failed'}"><i class="fa fa-exclamation-circle" aria-hidden="true" style="margin-right: 5px;color:red;font-size: 14px;"></i></span>
+            	<span th:text="${job.id}" >Id</span> </td> -->
+            	<td>SSM</td>
+                <td>REST</td>
+                <!-- <td><p class="font-weight-bold">Successful</p></td> -->
+                <td><span th:text="${job.status}" >Status</span></td>
+                <td><span th:text="${job.createdAt}" >CreatedAt</span></td>
+                <td><span th:text="${job.updatedAt}" >UpdatedAt</span></td>
+                
+                <td>COBOT</td>
+            </tr>
+
+        </tbody>
+      
+    </table>
+  </div>
+</div>
+</div>
+
+
+
+<!-- /.container -->
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#example').DataTable();
+    $('#dispaly').hide();
+    $('#loading').hide();
+    $('#pay').click(function() {
+    	$('#dispaly').show();
+    	$('#loading').hide();
+    	  var timerId, percent;
+
+    	  // reset progress bar
+    	  percent = 0;
+    	  $('#pay').attr('disabled', true);
+    	  $('#load').css('width', '0px');
+    	  $('#load').addClass('progress-bar-striped active');
+
+    	  timerId = setInterval(function() {
+
+    	    // increment progress bar
+    	    percent += 2;
+    	    $('#load').css('width', percent + '%');
+    	    $('#load').html(percent + '%');
+
+
+    	    if (percent >= 100) {
+    	      clearInterval(timerId);
+    	      $('#pay').attr('disabled', false);
+    	      $('#load').removeClass('progress-bar-striped active');
+    	      $('#load').html('Connection Successfully Established');
+    	    }
+    	  }, 100);
+    	});
+    $('#script').click(function() {
+    	$('#dispaly').hide();
+    	$('#loading').show();
+    	  var timerId, percent;
+
+    	  // reset progress bar
+    	  percent = 0;
+    	  $('#script').attr('disabled', true);
+    	  $('#scriptload').css('width', '0px');
+    	  $('#scriptload').addClass('progress-bar-striped active');
+
+    	  timerId = setInterval(function() {
+    		  if (percent == 0) {
+    			  $('#scriptload').html('Please wait...');
+      	      }
+    		  
+    	    // increment progress bar
+    	    percent += 5;
+    	    $('#scriptload').css('width', percent + '%');
+    	    
+    	    if (percent == 25) {
+    	    	$('#scriptload').html('Converting steps into scripts');
+    	      }
+    	      if (percent == 50) {
+    	    	  $('#scriptload').html('Actions into methods');
+    	      }
+    	      if (percent == 75) {
+    	    	  $('#scriptload').html('Values into Data');
+    	      }
+    	      
+
+    	    if (percent >= 100) {
+    	      clearInterval(timerId);
+    	      $('#script').attr('disabled', false);
+    	      $('#scriptload').removeClass('progress-bar-striped active');
+    	      $('#scriptload').html('Conversion Successful');
+    	    }
+    	  }, 1000);
+    	});
+    
+} );
+</script>
+</html>
