@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * 
@@ -81,7 +82,13 @@ public class JavaCodeUtil {
 				}
 				else if(line.contains("driver = new FirefoxDriver();"))
 				{
-					line ="\t driver = new ChromeDriver();\ndriver.manage().timeouts().implicitlyWait(60,TimeUnit.SECONDS) ;";
+					//String incongnitoCrome= "DesiredCapabilities capabilities = DesiredCapabilities.chrome(); \n\t	capabilities.setCapability(\"chrome.switches\", Arrays.asList(\"--incognito\"));";
+					
+					String incongnitoCrome = "\n\t ChromeOptions options = new ChromeOptions();\n\t options.addArguments(\"--incognito\");\n\t"
+							+ " DesiredCapabilities capabilities = DesiredCapabilities.chrome(); \n\t capabilities.setCapability(ChromeOptions.CAPABILITY, options); ";
+					
+				
+					line = incongnitoCrome + " \n\t driver = new ChromeDriver(capabilities);\n\t driver.manage().timeouts().implicitlyWait(60,TimeUnit.SECONDS) ;";
 				}
 
 				javaCodeList.add(line);
