@@ -10,7 +10,7 @@
 			JsonObject response = Json.createObjectBuilder().
 					add("jobId", jobid).add("status","Success").add("reason", "").
 					build();
-
+            driver.quit();
 			sendExecutionStatus(callbackUrl,response.toString());
 
 		} catch(Exception e) {
